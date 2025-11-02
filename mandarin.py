@@ -7,39 +7,20 @@ from io import BytesIO
 import time
 
 # ----------------------
-# Logo settings
+# Streamlit UI: Logo + Title
 # ----------------------
-LOGO_URL = "https://github.com/Shamim-Fav/mandarin-availability-app/blob/b6b2649f9f03681b18f64ca0a9b5987f39462373/logo.png"
-LOCAL_LOGO = "logo.png"  # optional local fallback if remote fails
+# Place logo.png in the same folder as this app.py
+col_logo, col_title, _ = st.columns([1, 5, 1])
+with col_logo:
+    st.image("logo.png", width=100)  # Local file
+with col_title:
+    st.title("Hong Kong – Mandarin Oriental Availability Checker")
 
-def show_logo(url=LOGO_URL, local_fallback=LOCAL_LOGO, width=200):
-    try:
-        # Try st.image first
-        st.image(url, width=width)
-    except Exception:
-        try:
-            # Render via HTML if st.image fails (SVG or remote issues)
-            st.markdown(
-                f'<div style="text-align:center;"><img src="{url}" width="{width}"></div>',
-                unsafe_allow_html=True
-            )
-        except Exception:
-            try:
-                # Fallback to local image
-                st.image(local_fallback, width=width)
-            except Exception:
-                # Final fallback: text
-                st.text("Mandarin Oriental")
-
-# Show logo above the title
-show_logo()
-
-# ----------------------
-# Streamlit UI
-# ----------------------
-st.title("Hong Kong – Mandarin Oriental Availability Checker")
 st.info("This app checks room availability for **Hong Kong – Mandarin Oriental**")
 
+# ----------------------
+# Date inputs
+# ----------------------
 start_date = st.date_input("Select start date for checking availability")
 num_days = st.number_input("How many days to check?", min_value=1, max_value=365, value=60)
 
@@ -137,4 +118,3 @@ if st.button("Start Checking"):
         )
     else:
         st.info("No availability found.")
-
