@@ -58,7 +58,7 @@ def parse_response(hotel_id, check_date, data):
 
 # 🏨 Streamlit UI
 st.title("Hong Kong – Mandarin Oriental Availability Checker")
-st.info("This app checks room availability for **Hong Kong – Mandarin Oriental** hotel (Hotel ID: 514).")
+st.info("This app checks room availability for **Hong Kong – Mandarin Oriental**")
 
 start_date = st.date_input("Select start date for checking availability")
 num_days = st.number_input("How many days to check?", min_value=1, max_value=365, value=60)
@@ -101,3 +101,4 @@ if st.button("Start Checking"):
         )
     else:
         st.info("No availability found.")
+
