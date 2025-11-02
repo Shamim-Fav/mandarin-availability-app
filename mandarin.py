@@ -34,6 +34,7 @@ def fetch_availability(hotel_id, check_date):
         st.error(f"HTTP {response.status_code} for hotel {hotel_id} on {check_date}")
         return None
 
+
 def parse_response(hotel_id, check_date, data):
     if not data or not data.get("roomStays"):
         return []
@@ -41,6 +42,7 @@ def parse_response(hotel_id, check_date, data):
     for room in data["roomStays"]:
         for rate in room.get("rates", []):
             rows.append({
+                "Hotel Name": "Mandarin Oriental",  # ✅ Added fixed value column
                 "HotelID": hotel_id,
                 "Date": check_date.strftime("%Y-%m-%d"),
                 "RoomType": room.get("title"),
@@ -57,25 +59,25 @@ def parse_response(hotel_id, check_date, data):
             })
     return rows
 
-st.title("Mandarin Oriental Room Availability Checker")
 
-uploaded_file = st.file_uploader("Upload your input Excel file", type=["xlsx"])
+# 🏨 Streamlit UI
+st.title("Hong Kong – Mandarin Oriental Availability Checker")  # ✅ Updated title
 
-if uploaded_file:
-    df = pd.read_excel(uploaded_file)
+st.info("This app checks room availability for **Hong Kong – Mandarin Oriental** hotel (Hotel ID: 514).")
+
+start_date = st.date_input("Select start date for checking availability")
+
+if st.button("Start Checking"):
+    hotel_id = 514  # ✅ Fixed hotel ID
     all_rows = []
 
-    for _, row in df.iterrows():
-        hotel_id = row["HotelID"]
-        start_date = pd.to_datetime(row["StartDate"])
-
-        for day_offset in range(60):
-            check_date = start_date + timedelta(days=day_offset)
-            st.text(f"Checking hotel {hotel_id} for {check_date.strftime('%Y-%m-%d')}")
-            data = fetch_availability(hotel_id, check_date)
-            parsed_rows = parse_response(hotel_id, check_date, data)
-            if parsed_rows:
-                all_rows.extend(parsed_rows)
+    for day_offset in range(60):
+        check_date = pd.to_datetime(start_date) + timedelta(days=day_offset)
+        st.text(f"Checking Hong Kong – Mandarin Oriental for {check_date.strftime('%Y-%m-%d')}")
+        data = fetch_availability(hotel_id, check_date)
+        parsed_rows = parse_response(hotel_id, check_date, data)
+        if parsed_rows:
+            all_rows.extend(parsed_rows)
 
     if all_rows:
         result_df = pd.DataFrame(all_rows)
@@ -85,7 +87,7 @@ if uploaded_file:
         st.download_button(
             label="Download Results Excel",
             data=buffer,
-            file_name="output_availability.xlsx",
+            file_name="hongkong_mandarin_oriental_availability.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
     else:
