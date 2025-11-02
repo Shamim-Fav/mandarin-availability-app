@@ -10,25 +10,25 @@ import time
 # Logo settings
 # ----------------------
 LOGO_URL = "https://raw.githubusercontent.com/Shamim-Fav/mandarin-availability-app/main/logo.png"
-LOCAL_LOGO = "logo.png"  # optional local fallback if SVG fails
+LOCAL_LOGO = "logo.png"  # optional local fallback if remote fails
 
 def show_logo(url=LOGO_URL, local_fallback=LOCAL_LOGO, width=200):
     try:
-        # Try st.image first (works for PNG/JPG and sometimes SVG)
+        # Try st.image first
         st.image(url, width=width)
     except Exception:
-        # If st.image fails (common with SVGs), render raw HTML <img>
         try:
+            # Render via HTML if st.image fails (SVG or remote issues)
             st.markdown(
                 f'<div style="text-align:center;"><img src="{url}" width="{width}"></div>',
                 unsafe_allow_html=True
             )
         except Exception:
-            # Final fallback: try local file if present
             try:
+                # Fallback to local image
                 st.image(local_fallback, width=width)
             except Exception:
-                # If everything fails, show text placeholder
+                # Final fallback: text
                 st.text("Mandarin Oriental")
 
 # Show logo above the title
@@ -137,4 +137,3 @@ if st.button("Start Checking"):
         )
     else:
         st.info("No availability found.")
-
