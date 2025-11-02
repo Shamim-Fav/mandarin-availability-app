@@ -71,7 +71,7 @@ if st.button("Start Checking"):
     hotel_id = 514  # ✅ Fixed hotel ID
     all_rows = []
 
-    for day_offset in range(60):
+    for day_offset in range(10):
         check_date = pd.to_datetime(start_date) + timedelta(days=day_offset)
         st.text(f"Checking Hong Kong – Mandarin Oriental for {check_date.strftime('%Y-%m-%d')}")
         data = fetch_availability(hotel_id, check_date)
@@ -92,3 +92,4 @@ if st.button("Start Checking"):
         )
     else:
         st.info("No availability found.")
+
