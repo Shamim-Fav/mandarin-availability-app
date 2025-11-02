@@ -7,13 +7,21 @@ from io import BytesIO
 import time
 
 # ----------------------
-# Streamlit UI: Logo + Title
+# Streamlit Page Config
 # ----------------------
-col_logo, col_title, _ = st.columns([1, 5, 1])
-with col_logo:
-    st.image("logo.png", width=400)  # Make sure logo.png is in the same folder as app.py
-with col_title:
-    st.title("Hong Kong – Mandarin Oriental Availability Checker")
+st.set_page_config(page_title="Mandarin Oriental HK Availability", layout="wide")
+
+# ----------------------
+# Logo + Title (Centered & Full Width)
+# ----------------------
+st.markdown(
+    """
+    <div style="text-align:center">
+        <img src='logo.png' width='250'/>
+        <h1 style="color:black; font-size:48px; margin-top:20px;">Hong Kong – Mandarin Oriental Availability Checker</h1>
+    </div>
+    """, unsafe_allow_html=True
+)
 
 st.info("This app checks room availability for **Hong Kong – Mandarin Oriental**")
 
@@ -117,7 +125,3 @@ if st.button("Start Checking"):
         )
     else:
         st.info("No availability found.")
-
-
-
-
