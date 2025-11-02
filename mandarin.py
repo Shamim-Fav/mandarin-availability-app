@@ -6,34 +6,6 @@ from datetime import timedelta
 from io import BytesIO
 import time
 
-# ----------------------
-# Streamlit Page Config
-# ----------------------
-st.set_page_config(page_title="Mandarin Oriental HK Availability", layout="wide")
-
-# ----------------------
-# Logo + Title (Centered & Full Width)
-# ----------------------
-st.markdown(
-    """
-    <div style="text-align:center">
-        <img src='logo.png' width='250'/>
-        <h1 style="color:black; font-size:48px; margin-top:20px;">Hong Kong – Mandarin Oriental Availability Checker</h1>
-    </div>
-    """, unsafe_allow_html=True
-)
-
-st.info("This app checks room availability for **Hong Kong – Mandarin Oriental**")
-
-# ----------------------
-# Date inputs
-# ----------------------
-start_date = st.date_input("Select start date for checking availability")
-num_days = st.number_input("How many days to check?", min_value=1, max_value=365, value=60)
-
-# ----------------------
-# API setup
-# ----------------------
 API_URL = "https://www.mandarinoriental.com/api/v1/booking/check-room-availability"
 
 HEADERS = {
@@ -84,9 +56,13 @@ def parse_response(hotel_id, check_date, data):
             })
     return rows
 
-# ----------------------
-# Main logic
-# ----------------------
+# 🏨 Streamlit UI
+st.title("Hong Kong – Mandarin Oriental Availability Checker")
+st.info("This app checks room availability for **Hong Kong – Mandarin Oriental**")
+
+start_date = st.date_input("Select start date for checking availability")
+num_days = st.number_input("How many days to check?", min_value=1, max_value=365, value=60)
+
 if st.button("Start Checking"):
     hotel_id = 514
     all_rows = []
@@ -125,3 +101,5 @@ if st.button("Start Checking"):
         )
     else:
         st.info("No availability found.")
+
+
