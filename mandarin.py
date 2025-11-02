@@ -61,7 +61,7 @@ def parse_response(hotel_id, check_date, data):
 # --- Logo centered above title ---
 logo_col1, logo_col2, logo_col3 = st.columns([1, 2, 1])
 with logo_col2:
-    st.image("logo.png", width=200)  # adjust width if needed
+    st.image("logo.png", width=120)  # adjust width if needed
 
 # --- Title ---
 st.title("Hong Kong – Mandarin Oriental Availability Checker")
@@ -110,4 +110,5 @@ if st.button("Start Checking"):
         )
     else:
         st.info("No availability found.")
+
 
