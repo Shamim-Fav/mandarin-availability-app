@@ -4,6 +4,7 @@ import pandas as pd
 import requests
 from datetime import timedelta
 from io import BytesIO
+import time
 
 API_URL = "https://www.mandarinoriental.com/api/v1/booking/check-room-availability"
 
@@ -34,7 +35,6 @@ def fetch_availability(hotel_id, check_date):
         st.error(f"HTTP {response.status_code} for hotel {hotel_id} on {check_date}")
         return None
 
-
 def parse_response(hotel_id, check_date, data):
     if not data or not data.get("roomStays"):
         return []
@@ -42,11 +42,11 @@ def parse_response(hotel_id, check_date, data):
     for room in data["roomStays"]:
         for rate in room.get("rates", []):
             rows.append({
-                "Hotel Name": "Mandarin Oriental",  # Fixed value column
+                "Hotel Name": "Mandarin Oriental",
                 "HotelID": hotel_id,
                 "Date": check_date.strftime("%Y-%m-%d"),
                 "RoomType": room.get("title"),
-                "RoomCode": room.get("roomTypeCode"),
+                "RoomCode": room.get("roomTypeCode"),  # ✅ Added RoomCode
                 "Total": rate.get("total"),
                 "Taxes": rate.get("taxes"),
                 "Fees": rate.get("fees"),
@@ -57,7 +57,6 @@ def parse_response(hotel_id, check_date, data):
             })
     return rows
 
-
 # 🏨 Streamlit UI
 st.title("Hong Kong – Mandarin Oriental Availability Checker")
 st.info("This app checks room availability for **Hong Kong – Mandarin Oriental** hotel (Hotel ID: 514).")
@@ -66,16 +65,29 @@ start_date = st.date_input("Select start date for checking availability")
 num_days = st.number_input("How many days to check?", min_value=1, max_value=365, value=60)
 
 if st.button("Start Checking"):
-    hotel_id = 514  # Fixed hotel ID
+    hotel_id = 514
     all_rows = []
+
+    progress_bar = st.progress(0)
+    status_text = st.empty()
+    start_time = time.time()
 
     for day_offset in range(num_days):
         check_date = pd.to_datetime(start_date) + timedelta(days=day_offset)
-        st.text(f"Checking Hong Kong – Mandarin Oriental for {check_date.strftime('%Y-%m-%d')}")
         data = fetch_availability(hotel_id, check_date)
         parsed_rows = parse_response(hotel_id, check_date, data)
         if parsed_rows:
             all_rows.extend(parsed_rows)
+
+        # Update progress bar and estimated time remaining
+        progress = (day_offset + 1) / num_days
+        progress_bar.progress(progress)
+        elapsed_time = time.time() - start_time
+        estimated_total_time = elapsed_time / progress
+        remaining_time = estimated_total_time - elapsed_time
+        status_text.text(f"{int(progress*100)}% completed – Estimated time remaining: {int(remaining_time)}s")
+
+    status_text.text("Checking complete!")
 
     if all_rows:
         result_df = pd.DataFrame(all_rows)
