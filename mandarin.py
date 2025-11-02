@@ -42,17 +42,15 @@ def parse_response(hotel_id, check_date, data):
     for room in data["roomStays"]:
         for rate in room.get("rates", []):
             rows.append({
-                "Hotel Name": "Mandarin Oriental",  # ✅ Added fixed value column
+                "Hotel Name": "Mandarin Oriental",  # Fixed value column
                 "HotelID": hotel_id,
                 "Date": check_date.strftime("%Y-%m-%d"),
                 "RoomType": room.get("title"),
                 "RoomCode": room.get("roomTypeCode"),
-                "RateTitle": rate.get("title"),
                 "Total": rate.get("total"),
                 "Taxes": rate.get("taxes"),
                 "Fees": rate.get("fees"),
                 "MaxGuests": room.get("maxGuests"),
-                "GuaranteeCode": rate.get("guaranteeCode"),
                 "ShortDescription": rate.get("shortDescription"),
                 "LongDescription": rate.get("longDescription"),
                 "Image": rate.get("image")
@@ -61,17 +59,17 @@ def parse_response(hotel_id, check_date, data):
 
 
 # 🏨 Streamlit UI
-st.title("Hong Kong – Mandarin Oriental Availability Checker")  # ✅ Updated title
-
+st.title("Hong Kong – Mandarin Oriental Availability Checker")
 st.info("This app checks room availability for **Hong Kong – Mandarin Oriental** hotel (Hotel ID: 514).")
 
 start_date = st.date_input("Select start date for checking availability")
+num_days = st.number_input("How many days to check?", min_value=1, max_value=365, value=60)
 
 if st.button("Start Checking"):
-    hotel_id = 514  # ✅ Fixed hotel ID
+    hotel_id = 514  # Fixed hotel ID
     all_rows = []
 
-    for day_offset in range(10):
+    for day_offset in range(num_days):
         check_date = pd.to_datetime(start_date) + timedelta(days=day_offset)
         st.text(f"Checking Hong Kong – Mandarin Oriental for {check_date.strftime('%Y-%m-%d')}")
         data = fetch_availability(hotel_id, check_date)
@@ -92,4 +90,3 @@ if st.button("Start Checking"):
         )
     else:
         st.info("No availability found.")
-
