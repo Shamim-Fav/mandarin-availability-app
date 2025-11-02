@@ -9,23 +9,10 @@ import time
 # ----------------------
 # Streamlit UI: Logo + Title
 # ----------------------
-# Place logo.png in the same folder as app.py
-
-# Create columns for logo and title
-col_logo, col_title = st.columns([1, 5])
-
-# Logo with colored background to show white logo
+# Place logo.png in the same folder as this app.py
+col_logo, col_title, _ = st.columns([1, 5, 1])
 with col_logo:
-    st.markdown(
-        """
-        <div style="background-color:#004C97; padding:10px; text-align:center; border-radius:8px;">
-            <img src="logo.png" width="100">
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-# Title stretched in remaining column
+    st.image("logo.png", width=100)  # Local file
 with col_title:
     st.title("Hong Kong – Mandarin Oriental Availability Checker")
 
