@@ -57,6 +57,10 @@ def parse_response(hotel_id, check_date, data):
     return rows
 
 # 🏨 Streamlit UI
+
+# Add logo above title
+st.image("logo.png", width=200)  # Replace with your file path or URL
+
 st.title("Hong Kong – Mandarin Oriental Availability Checker")
 st.info("This app checks room availability for **Hong Kong – Mandarin Oriental**")
 
@@ -101,4 +105,3 @@ if st.button("Start Checking"):
         )
     else:
         st.info("No availability found.")
-
