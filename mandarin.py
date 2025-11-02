@@ -9,7 +9,7 @@ import time
 # ----------------------
 # Logo settings
 # ----------------------
-LOGO_URL = "https://raw.githubusercontent.com/Shamim-Fav/mandarin-availability-app/main/logo.png"
+LOGO_URL = "https://github.com/Shamim-Fav/mandarin-availability-app/blob/b6b2649f9f03681b18f64ca0a9b5987f39462373/logo.png"
 LOCAL_LOGO = "logo.png"  # optional local fallback if remote fails
 
 def show_logo(url=LOGO_URL, local_fallback=LOCAL_LOGO, width=200):
@@ -137,3 +137,4 @@ if st.button("Start Checking"):
         )
     else:
         st.info("No availability found.")
+
