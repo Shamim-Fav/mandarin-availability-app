@@ -11,7 +11,7 @@ import time
 # ----------------------
 col_logo, col_title, _ = st.columns([1, 5, 1])
 with col_logo:
-    st.image("logo.jpg", width=100)  # Make sure logo.png is in the same folder as app.py
+    st.image("logo.png", width=100)  # Make sure logo.png is in the same folder as app.py
 with col_title:
     st.title("Hong Kong – Mandarin Oriental Availability Checker")
 
@@ -117,4 +117,5 @@ if st.button("Start Checking"):
         )
     else:
         st.info("No availability found.")
+
 
