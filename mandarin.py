@@ -57,12 +57,21 @@ def parse_response(hotel_id, check_date, data):
     return rows
 
 # 🏨 Streamlit UI
+
+# --- Logo centered above title ---
+logo_col1, logo_col2, logo_col3 = st.columns([1, 2, 1])
+with logo_col2:
+    st.image("logo.png", width=300)  # adjust width if needed
+
+# --- Title ---
 st.title("Hong Kong – Mandarin Oriental Availability Checker")
 st.info("This app checks room availability for **Hong Kong – Mandarin Oriental**")
 
+# --- Inputs ---
 start_date = st.date_input("Select start date for checking availability")
 num_days = st.number_input("How many days to check?", min_value=1, max_value=365, value=60)
 
+# --- Start Checking ---
 if st.button("Start Checking"):
     hotel_id = 514
     all_rows = []
@@ -101,5 +110,3 @@ if st.button("Start Checking"):
         )
     else:
         st.info("No availability found.")
-
-
