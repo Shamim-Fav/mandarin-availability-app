@@ -46,7 +46,6 @@ def parse_response(hotel_id, check_date, data):
                 "HotelID": hotel_id,
                 "Date": check_date.strftime("%Y-%m-%d"),
                 "RoomType": room.get("title"),
-                "RoomCode": room.get("roomTypeCode"),  # ✅ Added RoomCode
                 "Total": rate.get("total"),
                 "Taxes": rate.get("taxes"),
                 "Fees": rate.get("fees"),
